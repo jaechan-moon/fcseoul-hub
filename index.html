@@ -237,18 +237,26 @@
 
   .squad-layout{ display:grid; grid-template-columns: 1.4fr 1fr; gap:20px; align-items:start; }
   @media (max-width: 880px){ .squad-layout{ grid-template-columns:1fr; } }
+  .squad-side{ position: sticky; top: 84px; max-height: calc(100svh - 104px); overflow-y: auto; }
+  @media (max-width: 880px){ .squad-side{ position: static; max-height:none; } }
 
   .squad-toggle{ display:flex; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-bottom:14px; }
   .squad-toggle button{ all:unset; cursor:pointer; flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; background:var(--black-2); color:#ccc; }
   .squad-toggle button.active{ background:var(--red); color:#fff; }
 
-  .squad-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap:12px; }
+  .squad-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:14px; }
   .player-card{
     background: var(--black-2); border:1px solid var(--line); border-radius:10px; overflow:hidden;
     text-align:center; position:relative;
   }
   .player-photo{ position:relative; width:100%; aspect-ratio: 1 / 1.05; background:#2a2c30; overflow:hidden; }
-  .player-photo img{ width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+  .player-photo img{
+    width:100%; height:100%; object-fit:cover; object-position:top center; display:block;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
   .player-photo .no-photo{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; background: repeating-linear-gradient(135deg, #dfe1e4 0 11px, #d2d4d8 11px 22px); }
   .player-photo .no-photo svg{ width:52%; height:52%; opacity:0.6; }
   .player-photo .num-chip{
@@ -428,7 +436,7 @@
             </div>
             <div class="squad-grid" id="squadGrid"></div>
           </div>
-          <div>
+          <div class="squad-side">
             <div class="manager-card">
               <div class="manager-photo" id="managerPhoto"></div>
               <div class="role">감독</div>
@@ -677,7 +685,7 @@ const squad = [
   {n:31, pos:'gk', name:'강현무', pid:'20140038'},
   {n:71, pos:'gk', name:'윤기욱', pid:'20250082'},
   {n:4,  pos:'df', name:'이상민', pid:'20180008'},
-  {n:5,  pos:'df', name:'야잔',   pid:'20240324'},
+  {n:5,  pos:'df', name:'야잔',   pid:'20240324', pidFull:'https://d2tfp74nsbbrkr.cloudfront.net/v1/player/player_20240324.png'},
   {n:16, pos:'df', name:'최준',   pid:'20200041', cap:'VC'},
   {n:17, pos:'df', name:'안재민', pid:'20230088'},
   {n:20, pos:'df', name:'이한도', pid:'20160107', cap:'VC'},
@@ -713,8 +721,8 @@ const grid = $('#squadGrid');
 
 const NO_PHOTO_SVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="38" r="18" fill="#9aa0a8"/><path d="M14 92c0-22 16-38 36-38s36 16 36 38" fill="#9aa0a8"/></svg>`;
 function photoOrInitial(p){
-  if(p.pid){
-    const url = PLAYER_PHOTO_BASE + p.pid + '.png';
+  if(p.pidFull || p.pid){
+    const url = p.pidFull || (PLAYER_PHOTO_BASE + p.pid + '.png');
     return `<img src="${url}" alt="${p.name}" onerror="this.outerHTML='<div class=&quot;no-photo&quot;>${NO_PHOTO_SVG.replace(/"/g,'&quot;')}</div>'">`;
   }
   return `<div class="no-photo">${NO_PHOTO_SVG}</div>`;
