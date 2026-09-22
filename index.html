@@ -340,7 +340,7 @@
 
           <div class="predict-card">
             <div class="predict-head">
-              <div style="font-family:var(--font-display); font-size:14px;">경기 예측 <span style="color:var(--muted); font-size:11px; font-weight:400;">(샘플)</span></div>
+              <div style="font-family:var(--font-display); font-size:14px;">경기 예측 <span style="color:var(--muted); font-size:11px; font-weight:400;">(시즌 득실 데이터 기반 추정)</span></div>
               <div class="dday">D-18</div>
             </div>
             <div class="predict-vs">
@@ -350,18 +350,18 @@
             </div>
             <div class="venue-line">서울월드컵경기장 · K리그1 31라운드</div>
 
-            <div class="bar"><span class="w" style="width:52%"></span><span class="d" style="width:27%"></span><span class="l" style="width:21%"></span></div>
-            <div class="pct-row"><span>FC서울 <b>52%</b></span><span>무승부 <b>27%</b></span><span>제주 <b>21%</b></span></div>
+            <div class="bar"><span class="w" style="width:53%"></span><span class="d" style="width:27%"></span><span class="l" style="width:20%"></span></div>
+            <div class="pct-row"><span>FC서울 <b>53%</b></span><span>무승부 <b>27%</b></span><span>제주 <b>20%</b></span></div>
 
             <div class="score-guess">
-              <div class="item"><b>2-1</b><span>14%</span></div>
-              <div class="item"><b>1-0</b><span>12%</span></div>
-              <div class="item"><b>1-1</b><span>10%</span></div>
+              <div class="item"><b>1-0</b><span>15%</span></div>
+              <div class="item"><b>1-1</b><span>12%</span></div>
+              <div class="item"><b>2-0</b><span>11%</span></div>
             </div>
 
             <div class="ai-note">
-              <b>경기 프리뷰</b>
-현재 리그 1위(19승 5무 6패, 승점 62)인 FC서울과 3위 제주 SK의 상위권 맞대결입니다. 서울은 최근 원정에서 다소 주춤했지만, 홈 서울월드컵경기장에서는 견조한 흐름을 이어가고 있습니다.
+              <b>예측 근거</b>
+시즌 득점·실점 기록(FC서울 경기당 1.87득점·0.83실점, 제주 SK 경기당 1.17득점·0.97실점)을 바탕으로 포아송 분포로 계산한 추정치입니다. 실시간 배당률이나 AI 모델이 아닌, 양 팀의 이번 시즌 공격력·수비력 차이를 통계적으로 환산한 수치예요.
             </div>
           </div>
         </div>
@@ -438,23 +438,75 @@ $$('.tabs button').forEach(btn=>{
   });
 });
 
-// ---------- Fixtures (실제 예정 경기, 2026-09-22 기준 FotMob) ----------
-// 지난 경기(2월~9월)는 리더보드 탭에서 다룰 예정이라 여기서는 '예정된 경기'만 관리합니다.
+// ---------- Matches (실제 2026시즌 전체, 2026-09-22 기준 FotMob/K리그닷컴) ----------
 const TODAY = new Date('2026-09-22T00:00:00');
-const fixtures = [
-  {ymd:'2026-10-10', comp:'K리그1', round:'31R',      home:true,  opp:'제주 SK',      time:'14:00'},
-  {ymd:'2026-10-14', comp:'ACL2',   round:'조별리그',  home:false, opp:'멜버른 빅토리', time:'16:45'},
-  {ymd:'2026-10-18', comp:'K리그1', round:'32R',      home:true,  opp:'김천 상무',     time:'16:30'},
-  {ymd:'2026-10-24', comp:'K리그1', round:'33R',      home:true,  opp:'강원 FC',       time:'14:00'},
-  {ymd:'2026-10-28', comp:'ACL2',   round:'조별리그',  home:false, opp:'비엣텔 FC',     time:'21:15'},
-  {ymd:'2026-11-04', comp:'ACL2',   round:'조별리그',  home:true,  opp:'비엣텔 FC',     time:'19:00'},
-  {ymd:'2026-11-25', comp:'ACL2',   round:'조별리그',  home:false, opp:'페르십 반둥',   time:'21:15'},
-  {ymd:'2026-12-02', comp:'ACL2',   round:'조별리그',  home:true,  opp:'멜버른 빅토리', time:'19:00'},
+const matches = [
+  // -- 지난 경기 (스코어 확정) --
+  {ymd:'2026-02-10', comp:'ACLE', round:'조별리그', home:false, opp:'비셀 고베',       score:[2,0]},
+  {ymd:'2026-02-17', comp:'ACLE', round:'조별리그', home:true,  opp:'산프레체',        score:[2,2]},
+  {ymd:'2026-02-28', comp:'K리그1', round:'1R',     home:false, opp:'인천 유나이티드', score:[1,2]},
+  {ymd:'2026-03-04', comp:'ACLE', round:'16강',     home:true,  opp:'비셀 고베',       score:[0,1]},
+  {ymd:'2026-03-11', comp:'ACLE', round:'16강',     home:false, opp:'비셀 고베',       score:[2,1]},
+  {ymd:'2026-03-15', comp:'K리그1', round:'2R',     home:false, opp:'제주 SK',         score:[1,2]},
+  {ymd:'2026-03-18', comp:'K리그1', round:'3R',     home:false, opp:'포항 스틸러스',   score:[0,1]},
+  {ymd:'2026-03-22', comp:'K리그1', round:'4R',     home:true,  opp:'광주 FC',         score:[5,0]},
+  {ymd:'2026-04-05', comp:'K리그1', round:'5R',     home:false, opp:'FC안양',          score:[1,1]},
+  {ymd:'2026-04-11', comp:'K리그1', round:'6R',     home:true,  opp:'전북 현대모터스', score:[1,0]},
+  {ymd:'2026-04-15', comp:'K리그1', round:'7R',     home:false, opp:'울산 HD',         score:[1,4]},
+  {ymd:'2026-04-18', comp:'K리그1', round:'8R',     home:true,  opp:'대전하나시티즌',  score:[0,1]},
+  {ymd:'2026-04-21', comp:'K리그1', round:'9R',     home:true,  opp:'부천 FC1995',     score:[3,0]},
+  {ymd:'2026-04-25', comp:'K리그1', round:'10R',    home:false, opp:'강원 FC',         score:[1,2]},
+  {ymd:'2026-05-02', comp:'K리그1', round:'11R',    home:true,  opp:'김천 상무',       score:[2,3]},
+  {ymd:'2026-05-05', comp:'K리그1', round:'12R',    home:true,  opp:'FC안양',          score:[0,0]},
+  {ymd:'2026-05-09', comp:'K리그1', round:'13R',    home:false, opp:'제주 SK',         score:[2,1]},
+  {ymd:'2026-05-12', comp:'K리그1', round:'14R',    home:false, opp:'광주 FC',         score:[0,1]},
+  {ymd:'2026-05-16', comp:'K리그1', round:'15R',    home:false, opp:'대전하나시티즌',  score:[1,2]},
+  {ymd:'2026-07-05', comp:'K리그1', round:'16R',    home:true,  opp:'인천 유나이티드', score:[1,0]},
+  {ymd:'2026-07-12', comp:'K리그1', round:'17R',    home:true,  opp:'강원 FC',         score:[0,0]},
+  {ymd:'2026-07-19', comp:'K리그1', round:'18R',    home:false, opp:'부천 FC1995',     score:[1,3]},
+  {ymd:'2026-07-22', comp:'K리그1', round:'19R',    home:true,  opp:'포항 스틸러스',   score:[3,1]},
+  {ymd:'2026-07-26', comp:'K리그1', round:'20R',    home:true,  opp:'울산 HD',         score:[1,3]},
+  {ymd:'2026-07-29', comp:'Cup',   round:'16강',     home:false, opp:'부산 아이파크',   score:[2,0]},
+  {ymd:'2026-08-01', comp:'K리그1', round:'21R',    home:false, opp:'전북 현대모터스', score:[0,0]},
+  {ymd:'2026-08-08', comp:'K리그1', round:'22R',    home:false, opp:'김천 상무',       score:[0,0]},
+  {ymd:'2026-08-15', comp:'K리그1', round:'23R',    home:true,  opp:'대전하나시티즌',  score:[4,2]},
+  {ymd:'2026-08-22', comp:'K리그1', round:'24R',    home:false, opp:'FC안양',          score:[0,7]},
+  {ymd:'2026-08-25', comp:'K리그1', round:'25R',    home:true,  opp:'부천 FC1995',     score:[1,0]},
+  {ymd:'2026-08-30', comp:'K리그1', round:'26R',    home:false, opp:'광주 FC',         score:[2,5]},
+  {ymd:'2026-09-05', comp:'K리그1', round:'27R',    home:true,  opp:'인천 유나이티드', score:[1,0]},
+  {ymd:'2026-09-08', comp:'K리그1', round:'28R',    home:false, opp:'울산 HD',         score:[1,0]},
+  {ymd:'2026-09-12', comp:'K리그1', round:'29R',    home:false, opp:'전북 현대모터스', score:[1,2]},
+  {ymd:'2026-09-16', comp:'ACL2',  round:'조별리그', home:true,  opp:'페르십 반둥',     score:[0,1]},
+  {ymd:'2026-09-20', comp:'K리그1', round:'30R',    home:false, opp:'포항 스틸러스',   score:[2,1]},
+  // -- 예정된 경기 --
+  {ymd:'2026-10-10', comp:'K리그1', round:'31R',     home:true,  opp:'제주 SK',        time:'14:00'},
+  {ymd:'2026-10-14', comp:'ACL2',  round:'조별리그', home:false, opp:'멜버른 빅토리',   time:'16:45'},
+  {ymd:'2026-10-18', comp:'K리그1', round:'32R',     home:true,  opp:'김천 상무',      time:'16:30'},
+  {ymd:'2026-10-24', comp:'K리그1', round:'33R',     home:true,  opp:'강원 FC',        time:'14:00'},
+  {ymd:'2026-10-28', comp:'ACL2',  round:'조별리그', home:false, opp:'비엣텔 FC',      time:'21:15'},
+  {ymd:'2026-11-04', comp:'ACL2',  round:'조별리그', home:true,  opp:'비엣텔 FC',      time:'19:00'},
+  {ymd:'2026-11-25', comp:'ACL2',  round:'조별리그', home:false, opp:'페르십 반둥',    time:'21:15'},
+  {ymd:'2026-12-02', comp:'ACL2',  round:'조별리그', home:true,  opp:'멜버른 빅토리',  time:'19:00'},
 ];
+const fixtures = matches.filter(m=>!m.score); // 다음 경기 예측 카드용
+
 const DAY_KR = ['일','월','화','수','목','금','토'];
 function fmtDate(ymd){
   const d = new Date(ymd+'T00:00:00');
   return `${d.getMonth()+1}월 ${d.getDate()}일 (${DAY_KR[d.getDay()]})`;
+}
+function compTagClass(comp){
+  if(comp==='ACL2' || comp==='ACLE') return 'epl';
+  if(comp==='Cup') return 'cup';
+  return '';
+}
+function compLabel(comp){
+  return comp==='Cup' ? '코리아컵' : comp;
+}
+function outcome(score){
+  if(score[0]>score[1]) return {t:'승', c:'#7CD992'};
+  if(score[0]<score[1]) return {t:'패', c:'#FF8A8A'};
+  return {t:'무', c:'#C9CBCE'};
 }
 
 let viewYear, viewMonth;
@@ -468,26 +520,42 @@ function renderMonth(){
   $('#calMonthLabel').textContent = `${viewYear}년 ${viewMonth+1}월`;
   const listEl = $('#matchList');
   listEl.innerHTML = '';
-  const monthMatches = fixtures.filter(f=>{
-    const d = new Date(f.ymd+'T00:00:00');
+  const monthMatches = matches.filter(m=>{
+    const d = new Date(m.ymd+'T00:00:00');
     return d.getFullYear()===viewYear && d.getMonth()===viewMonth;
   });
   if(monthMatches.length===0){
-    listEl.innerHTML = `<div style="padding:34px 10px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed var(--line);border-radius:10px;">이번 달은 예정된 경기가 없습니다</div>`;
+    listEl.innerHTML = `<div style="padding:34px 10px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed var(--line);border-radius:10px;">이번 달은 경기가 없습니다 (국가대표 휴식기 등)</div>`;
     return;
   }
   monthMatches.forEach(m=>{
     const div = document.createElement('div');
-    div.className = 'match-card' + (m.ymd===fixtures[0].ymd ? ' selected' : '');
+    const isNext = !m.score && m.ymd===fixtures[0].ymd;
+    div.className = 'match-card' + (isNext ? ' selected' : '');
+    if(m.score) div.style.opacity = '0.78';
+
+    const homeName = m.home ? 'FC서울' : m.opp;
+    const awayName = m.home ? m.opp : 'FC서울';
+    const homeCrest = m.home ? `<div class="crest-dot">서울</div>` : `<div class="crest-dot opp">·</div>`;
+    const awayCrest = m.home ? `<div class="crest-dot opp">·</div>` : `<div class="crest-dot">서울</div>`;
+    const middle = m.score ? `${m.score[0]} - ${m.score[1]}` : 'VS';
+
+    let rightInfo;
+    if(m.score){
+      const o = outcome(m.home ? m.score : [m.score[1],m.score[0]]);
+      rightInfo = `<b style="color:${o.c}">${o.t}</b>${fmtDate(m.ymd)} · ${m.round}`;
+    } else {
+      rightInfo = `<b>${fmtDate(m.ymd)}</b>${m.time} · ${m.round} · ${m.home?'홈':'원정'}`;
+    }
+
     div.innerHTML = `
-      <span class="comp-tag ${m.comp==='ACL2' ? 'epl' : ''}">${m.comp}</span>
+      <span class="comp-tag ${compTagClass(m.comp)}">${compLabel(m.comp)}</span>
       <div class="match-teams">
-        ${m.home
-          ? `<div class="side"><div class="crest-dot">서울</div>FC서울</div><span class="vs">VS</span><div class="side away"><div class="crest-dot opp">·</div>${m.opp}</div>`
-          : `<div class="side"><div class="crest-dot opp">·</div>${m.opp}</div><span class="vs">VS</span><div class="side away"><div class="crest-dot">서울</div>FC서울</div>`
-        }
+        <div class="side">${homeCrest}${homeName}</div>
+        <span class="vs">${middle}</span>
+        <div class="side away">${awayCrest}${awayName}</div>
       </div>
-      <div class="match-date"><b>${fmtDate(m.ymd)}</b>${m.time} · ${m.round} · ${m.home?'홈':'원정'}</div>
+      <div class="match-date">${rightInfo}</div>
     `;
     listEl.appendChild(div);
   });
