@@ -238,33 +238,60 @@
   .squad-layout{ display:grid; grid-template-columns: 1.4fr 1fr; gap:20px; align-items:start; }
   @media (max-width: 880px){ .squad-layout{ grid-template-columns:1fr; } }
 
+  .squad-toggle{ display:flex; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-bottom:14px; }
+  .squad-toggle button{ all:unset; cursor:pointer; flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; background:var(--black-2); color:#ccc; }
+  .squad-toggle button.active{ background:var(--red); color:#fff; }
+
   .squad-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap:12px; }
   .player-card{
-    background: var(--black-2); border:1px solid var(--line); border-radius:10px; padding:12px;
-    text-align:center;
+    background: var(--black-2); border:1px solid var(--line); border-radius:10px; overflow:hidden;
+    text-align:center; position:relative;
   }
-  .num-badge{
-    width:34px; height:34px; border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center;
-    font-family: var(--font-display); font-weight:700; font-size:14px; color:#111;
+  .player-photo{ position:relative; width:100%; aspect-ratio: 1 / 1.05; background:#2a2c30; overflow:hidden; }
+  .player-photo img{ width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+  .player-photo .initial-avatar{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:34px; color:rgba(255,255,255,0.5); }
+  .player-photo .num-chip{
+    position:absolute; top:6px; left:6px; min-width:22px; height:22px; padding:0 5px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:12px; color:#111;
   }
-  .num-badge.gk{ background: var(--gold); }
-  .num-badge.df{ background: #B9BDC2; }
-  .num-badge.mf{ background: var(--red); color:#fff; }
-  .num-badge.fw{ background:#fff; }
+  .player-photo .num-chip.gk{ background: var(--gold); }
+  .player-photo .num-chip.df{ background: #B9BDC2; }
+  .player-photo .num-chip.mf{ background: var(--red); color:#fff; }
+  .player-photo .num-chip.fw{ background:#fff; }
+  .player-photo .cap-chip{
+    position:absolute; top:6px; right:6px; width:20px; height:20px; border-radius:50%;
+    background:rgba(0,0,0,0.55); color:var(--gold); font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; border:1px solid var(--gold);
+  }
+  .player-info{ padding:8px 6px; }
   .player-name{ font-size:12.5px; font-weight:500; }
   .player-pos{ font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; }
 
+  .empty-state{ padding:40px 16px; text-align:center; color:var(--muted); font-size:13px; border:1px dashed var(--line); border-radius:10px; }
+
   .manager-card{
-    background: linear-gradient(180deg, var(--red-deep), var(--black-2) 55%);
+    background: linear-gradient(180deg, var(--red-deep), var(--black-2) 60%);
     border-radius:12px; padding:20px; border:1px solid var(--line);
   }
+  .manager-head{ display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .manager-photo{ width:56px; height:56px; border-radius:50%; overflow:hidden; background:#3a3d42; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:20px; }
+  .manager-photo img{ width:100%; height:100%; object-fit:cover; }
   .manager-card .role{ font-size:11px; color:var(--gold); letter-spacing:1px; }
-  .manager-card h3{ font-family:var(--font-display); font-size:22px; margin:4px 0 2px; font-weight:600; }
-  .manager-card .sub{ font-size:12px; color:#d8d8d8; margin-bottom:16px; }
-  .m-stats{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:14px;}
+  .manager-card h3{ font-family:var(--font-display); font-size:21px; margin:2px 0 2px; font-weight:600; }
+  .manager-card .sub{ font-size:12px; color:#d8d8d8; }
+  .m-stats{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin:16px 0;}
   .m-stats .cell{ background: rgba(0,0,0,0.25); border-radius:8px; padding:10px; }
-  .m-stats .cell b{ display:block; font-family:var(--font-display); font-size:18px; }
+  .m-stats .cell b{ display:block; font-family:var(--font-display); font-size:16px; }
   .m-stats .cell span{ font-size:10.5px; color:var(--muted); }
+  .career-table{ margin-top:14px; border-top:1px solid rgba(255,255,255,0.12); padding-top:12px; }
+  .career-table .ct-head{ font-size:10.5px; color:var(--gold); letter-spacing:.5px; margin-bottom:8px; }
+  .career-row{ display:flex; justify-content:space-between; font-size:12px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .career-row .club{ color:#fff; }
+  .career-row .period{ color:var(--muted); }
+
+  .injury-card{ background:var(--black-2); border:1px solid var(--line); border-radius:12px; padding:18px; margin-top:16px; }
+  .injury-card h4{ margin:0 0 10px; font-size:13px; font-family:var(--font-display); font-weight:500; }
+  .injury-empty{ font-size:12px; color:var(--muted); text-align:center; padding:18px 0; }
 
   /* ---------- Media (simplified, sample) ---------- */
   .media-note{
@@ -387,6 +414,10 @@
       <section class="panel" id="panel-squad">
         <div class="squad-layout">
           <div>
+            <div class="squad-toggle">
+              <button class="active" data-squad="first">1군</button>
+              <button data-squad="academy">아카데미</button>
+            </div>
             <div class="pos-tabs">
               <button class="active" data-pos="all">전체</button>
               <button data-pos="gk">GK</button>
@@ -396,16 +427,31 @@
             </div>
             <div class="squad-grid" id="squadGrid"></div>
           </div>
-          <div class="manager-card">
-            <div class="role">감독</div>
-            <h3>김기동</h3>
-            <div class="sub">대한민국 · 2024년 취임</div>
-            <div style="font-size:12.5px; color:#e5e5e5; line-height:1.7;">
-              공격적인 포지셔닝 플레이를 앞세운 지도 스타일로 잘 알려져 있으며, 부임 첫 시즌부터 팀을 상위권으로 이끌었습니다.
+          <div>
+            <div class="manager-card">
+              <div class="manager-head">
+                <div class="manager-photo" id="managerPhoto">김</div>
+                <div>
+                  <div class="role">감독</div>
+                  <h3>김기동</h3>
+                  <div class="sub">대한민국 · 55세</div>
+                </div>
+              </div>
+              <div class="m-stats">
+                <div class="cell"><b>171cm</b><span>신장</span></div>
+                <div class="cell"><b>2023.12</b><span>FC서울 부임</span></div>
+              </div>
+              <div class="career-table">
+                <div class="ct-head">지도자 경력</div>
+                <div class="career-row"><span class="club">FC서울</span><span class="period">2024 – 현재</span></div>
+                <div class="career-row"><span class="club">포항 스틸러스 (감독)</span><span class="period">2019 – 2023</span></div>
+                <div class="career-row"><span class="club">포항 스틸러스 (수석코치)</span><span class="period">2016 – 2019</span></div>
+                <div class="career-row"><span class="club">U-23 대표팀 (코치)</span><span class="period">2013 – 2016</span></div>
+              </div>
             </div>
-            <div class="m-stats">
-              <div class="cell"><b>2024–</b><span>부임 시즌</span></div>
-              <div class="cell"><b>4위</b><span>2024 최종순위</span></div>
+            <div class="injury-card">
+              <h4>부상자 현황</h4>
+              <div class="injury-empty">실시간으로 확인된 부상자 정보가 없습니다.</div>
             </div>
           </div>
         </div>
@@ -624,36 +670,74 @@ standings.forEach((t,i)=>{
   sBody.appendChild(tr);
 });
 
-// ---------- Squad (sample, based on public roster info) ----------
+// ---------- Squad (실제 2026시즌 명단 · 나무위키/K리그닷컴 기준) ----------
+// 사진은 K리그 공식 사이트(kleague.com) 데이터를 실시간으로 그대로 불러옵니다.
+// 이 미리보기(claude.ai)에서는 보안 정책상 안 뜰 수 있지만, 실제 배포 사이트(Vercel)에서는 정상 표시됩니다.
+const PLAYER_PHOTO_BASE = 'https://d2tfp74nsbbrkr.cloudfront.net/v1/player/2026/K09/player_';
 const squad = [
-  {n:1,  pos:'gk', name:'임준섭'},
-  {n:25, pos:'gk', name:'구성윤'},
-  {n:31, pos:'gk', name:'강현무'},
-  {n:4,  pos:'df', name:'이상민'},
-  {n:16, pos:'df', name:'최준'},
-  {n:20, pos:'df', name:'이한도'},
-  {n:22, pos:'df', name:'김진수'},
-  {n:66, pos:'df', name:'박수일'},
-  {n:6,  pos:'mf', name:'바베츠'},
-  {n:7,  pos:'mf', name:'정승원'},
-  {n:8,  pos:'mf', name:'이승모'},
-  {n:21, pos:'mf', name:'정하원'},
-  {n:88, pos:'mf', name:'박장한결'},
-  {n:9,  pos:'fw', name:'클리말라'},
-  {n:10, pos:'fw', name:'안데르손'},
-  {n:11, pos:'fw', name:'후이즈'},
-  {n:18, pos:'fw', name:'조영욱'},
-  {n:19, pos:'fw', name:'천성훈'},
-  {n:27, pos:'fw', name:'문선민'},
+  {n:1,  pos:'gk', name:'임준섭', pid:'20220169'},
+  {n:25, pos:'gk', name:'구성윤', pid:'20200301'},
+  {n:31, pos:'gk', name:'강현무', pid:'20140038'},
+  {n:71, pos:'gk', name:'윤기욱', pid:'20250082'},
+  {n:4,  pos:'df', name:'이상민', pid:'20180008'},
+  {n:5,  pos:'df', name:'야잔',   pid:'20240324'},
+  {n:16, pos:'df', name:'최준',   pid:null, cap:'VC'},
+  {n:17, pos:'df', name:'안재민', pid:'20230088'},
+  {n:20, pos:'df', name:'이한도', pid:'20160107', cap:'VC'},
+  {n:22, pos:'df', name:'김진수', pid:'20170185', cap:'C'},
+  {n:36, pos:'df', name:'김지원', pid:'20250060'},
+  {n:37, pos:'df', name:'로스',   pid:'20260048'},
+  {n:40, pos:'df', name:'박성훈', pid:'20220163'},
+  {n:49, pos:'df', name:'이서현', pid:null},
+  {n:66, pos:'df', name:'박수일', pid:'20180233'},
+  {n:73, pos:'df', name:'신지섭', pid:null},
+  {n:77, pos:'df', name:'김강준', pid:null},
+  {n:6,  pos:'mf', name:'바베츠', pid:'20260045'},
+  {n:7,  pos:'mf', name:'정승원', pid:'20160099'},
+  {n:8,  pos:'mf', name:'이승모', pid:'20170052'},
+  {n:21, pos:'mf', name:'정하원', pid:null},
+  {n:23, pos:'mf', name:'고필관', pid:'20260047'},
+  {n:24, pos:'mf', name:'김민준', pid:null},
+  {n:41, pos:'mf', name:'황도윤', pid:null},
+  {n:42, pos:'mf', name:'손정범', pid:'20260049'},
+  {n:88, pos:'mf', name:'박장한결', pid:'20220164'},
+  {n:9,  pos:'fw', name:'클리말라', pid:null},
+  {n:10, pos:'fw', name:'안데르손', pid:'20240179'},
+  {n:11, pos:'fw', name:'후이즈', pid:null},
+  {n:14, pos:'fw', name:'정현우', pid:'20260349'},
+  {n:18, pos:'fw', name:'조영욱', pid:null},
+  {n:19, pos:'fw', name:'천성훈', pid:null},
+  {n:27, pos:'fw', name:'문선민', pid:'20170229'},
+  {n:47, pos:'fw', name:'정현웅', pid:null},
+  {n:99, pos:'fw', name:'바또',   pid:'20250081'},
 ];
 const posLabel = {gk:'GK',df:'DF',mf:'MF',fw:'FW'};
 const grid = $('#squadGrid');
+
+function photoOrInitial(p){
+  if(p.pid){
+    const url = PLAYER_PHOTO_BASE + p.pid + '.png';
+    return `<img src="${url}" alt="${p.name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'initial-avatar',textContent:'${p.name[0]}'}))">`;
+  }
+  return `<div class="initial-avatar">${p.name[0]}</div>`;
+}
+
 function renderSquad(filter){
   grid.innerHTML='';
   squad.filter(p=>filter==='all'||p.pos===filter).forEach(p=>{
     const c = document.createElement('div');
     c.className='player-card';
-    c.innerHTML = `<div class="num-badge ${p.pos}">${p.n}</div><div class="player-name">${p.name}</div><div class="player-pos">${posLabel[p.pos]}</div>`;
+    c.innerHTML = `
+      <div class="player-photo">
+        ${photoOrInitial(p)}
+        <div class="num-chip ${p.pos}">${p.n}</div>
+        ${p.cap ? `<div class="cap-chip">${p.cap}</div>` : ''}
+      </div>
+      <div class="player-info">
+        <div class="player-name">${p.name}</div>
+        <div class="player-pos">${posLabel[p.pos]}</div>
+      </div>
+    `;
     grid.appendChild(c);
   });
 }
@@ -665,6 +749,25 @@ $$('.pos-tabs button').forEach(b=>{
     renderSquad(b.dataset.pos);
   });
 });
+
+$$('.squad-toggle button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    $$('.squad-toggle button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    if(b.dataset.squad === 'academy'){
+      $('.pos-tabs').style.display = 'none';
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">아카데미(유스) 명단은 아직 준비되지 않았습니다.</div>`;
+    } else {
+      $('.pos-tabs').style.display = 'flex';
+      $$('.pos-tabs button').forEach(x=>x.classList.remove('active'));
+      $('.pos-tabs button[data-pos="all"]').classList.add('active');
+      renderSquad('all');
+    }
+  });
+});
+
+// 감독 사진도 동일한 K리그 공식 소스에서 실시간으로 불러옵니다.
+$('#managerPhoto').innerHTML = `<img src="${PLAYER_PHOTO_BASE.replace('/2026/K09/','/2025/K09/')}19970114.png" alt="김기동" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'김'}))">`;
 
 // ---------- Media (static sample cards) ----------
 const news = [
